@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V4 Dashboard | NAUE GMBH</title>
+    <link rel="stylesheet" href="index_v4.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+    <!-- Modern Dark Navy Header -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="logo-block" style="display:flex; align-items:center;">
+                <svg width="32" height="32" viewBox="0 0 100 100" style="margin-right: 12px; flex-shrink: 0;">
+                    <g fill="#30a271">
+                        <path d="M 10 10 h 15 v 60 a 10 10 0 0 1 -10 10 h -5 v -70 z" />
+                        <path d="M 90 10 h -15 v 70 h 5 a 10 10 0 0 0 10 -10 v -60 z" />
+                        <path d="M 25 36 L 75 75 L 63 80 L 25 50 Z" />
+                        <rect x="10" y="87" width="80" height="8" />
+                    </g>
+                </svg>
+                <div>
+                    <div class="logo-main"><span class="logo-naue">NAUE</span><span class="logo-gmbh">GMBH</span></div>
+                    <div class="logo-sub">BUILDING ON SUSTAINABLE GROUND</div>
+                </div>
+            </div>
+            <div class="header-divider"></div>
+            <div class="header-context" id="headerContext">
+                GLOBAL STATUS &bull; ALL SHIFTS &bull; TODAY
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="version-tag"><span id="headerDateTxt">-</span></div>
+            <button id="exportBtn" class="btn-export"><i data-lucide="file-text" style="width:16px;"></i> EXPORT PDF
+                REPORT</button>
+        </div>
+    </header>
+
+    <!-- Combined Filter & KPI Toolbar -->
+    <div class="toolbar-strip">
+        <div class="filter-cluster">
+            <div class="filter-mini">
+                <label>DATE</label>
+                <div style="display:flex; align-items:center; gap:4px; border:1px solid var(--border); border-radius:6px; padding:2px 4px;">
+                    <button id="prevDateBtn" style="background:transparent; border:none; color:var(--text-gray); cursor:pointer; display:flex; align-items:center;"><i data-lucide="chevron-left" style="width:16px; height:16px;"></i></button>
+                    <input type="date" id="dateFilterSingle" style="border:none; outline:none; font-size:0.85rem; font-weight:600; color:var(--text-dark); background:transparent; max-width:110px;">
+                    <div id="dateRangeInputs" style="display:none; align-items:center; gap:4px;">
+                        <span style="color:var(--text-gray); font-size:0.85rem; font-weight:700;">&ndash;</span>
+                        <input type="date" id="dateFilterEnd" style="border:none; outline:none; font-size:0.85rem; font-weight:600; color:var(--text-dark); background:transparent; max-width:110px;">
+                    </div>
+                    <button id="nextDateBtn" style="background:transparent; border:none; color:var(--text-gray); cursor:pointer; display:flex; align-items:center;"><i data-lucide="chevron-right" style="width:16px; height:16px;"></i></button>
+                    <div style="width:1px; height:14px; background:var(--border); margin:0 2px;"></div>
+                    <button id="toggleRangeModeBtn" title="Toggle Multi-Day Range" style="background:transparent; border:none; color:var(--text-gray); cursor:pointer; display:flex; align-items:center; padding:2px;"><i data-lucide="calendar-range" style="width:14px; height:14px;"></i></button>
+                </div>
+            </div>
+
+            <div class="filter-mini">
+                <label>TIME / SHIFT</label>
+                <div style="display:flex; align-items:center;">
+                    <div class="shift-pills" id="shiftToggles">
+                        <button data-shift="1" class="active">S1</button>
+                        <button data-shift="2">S2</button>
+                        <button data-shift="3">S3</button>
+                        <button data-shift="all">ALL</button>
+                        <button data-shift="custom" title="Custom Time Period" style="padding: 2px 8px;"><i data-lucide="clock" style="width:14px; height:14px;"></i></button>
+                    </div>
+                    <div id="customTimeInputs" style="display:none; align-items:center; gap:4px; margin-left:8px; border:1px solid var(--border); border-radius:6px; padding:2px 6px;">
+                        <input type="time" id="customStartTime" value="08:00" style="border:none; outline:none; font-size:0.85rem; font-weight:600; color:var(--text-dark); background:transparent;">
+                        <span style="color:var(--text-gray); font-size:0.85rem; font-weight:700;">&ndash;</span>
+                        <input type="time" id="customEndTime" value="12:00" style="border:none; outline:none; font-size:0.85rem; font-weight:600; color:var(--text-dark); background:transparent;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-mini">
+                <label>PLANT</label>
+                <select id="plantFilter">
+                    <option value="all">Global Plant Status</option>
+                </select>
+            </div>
+
+            <div class="filter-mini">
+                <label>MACHINE</label>
+                <select id="machineFilter">
+                    <option value="all">Global status</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <div class="kpi-cluster">
+            <div class="kpi-mini">
+                <div class="icon-circle icon-green"><i data-lucide="settings"></i></div>
+                <div class="kpi-text">
+                    <div class="lbl">RUNNING</div>
+                    <div class="val" id="kpiActiveMachines">-</div>
+                </div>
+            </div>
+            <div class="kpi-mini">
+                <div class="icon-circle icon-orange"><i data-lucide="package"></i></div>
+                <div class="kpi-text">
+                    <div class="lbl">TOTAL QTY</div>
+                    <div class="val" id="kpiTotalQty">-</div>
+                </div>
+            </div>
+            <div class="kpi-mini">
+                <div class="icon-circle icon-red"><i data-lucide="clock"></i></div>
+                <div class="kpi-text">
+                    <div class="lbl">DOWNTIME</div>
+                    <div class="val text-red" id="kpiTotalDowntime">-</div>
+                </div>
+            </div>
+            <!-- Extra spacer for layout balancing -->
+            <button id="refreshBtn" class="refresh-pill" title="Force Sync API"><i
+                    data-lucide="refresh-cw"></i></button>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <main class="main-layout">
+
+        <!-- Left: Machines -->
+        <div class="left-pane">
+            <div class="machine-grid" id="machineGridV4">
+                <div style="text-align:center; padding: 40px; width: 100%;"><i data-lucide="loader"
+                        class="rotating"></i> Syncing Engine...</div>
+            </div>
+
+            <div class="ledger-container">
+                <div class="ledger-header">SHIFT PRODUCTION RUN LEDGER</div>
+                <table class="run-table">
+                    <thead>
+                        <tr>
+                            <th>MACHINE</th>
+                            <th>PRODUCTION ORDER #</th>
+                            <th>RUNTIME</th>
+                            <th>QTY (M)</th>
+                            <th>YIELD</th>
+                            <th>THR</th>
+                        </tr>
+                    </thead>
+                    <tbody id="runTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Right: Bottlenecks & Feed -->
+        <div class="right-pane">
+            <div class="downtime-v2-card"
+                style="background:var(--surface); border-radius:12px; border:1px solid var(--border); padding:24px;">
+                <h2 style="font-size:1.25rem; font-weight:800; color:var(--naue-dark); margin-bottom:4px;"
+                    id="downtimeHeaderTitle">Downtime today - All Day</h2>
+                <div style="font-size:0.85rem; color:var(--text-gray); margin-bottom:24px;"><span
+                        id="downtimeTotalText">0h 0m total downtime</span> &bull; <span id="downtimeEventCount">0
+                        events</span></div>
+
+                <div style="font-size:0.9rem; font-weight:600; color:var(--text-gray); margin-bottom:16px;">Downtime by
+                    machine</div>
+                <div class="bottleneck-chart" id="downtimeChart" style="margin-bottom:32px;">
+                    <!-- JS Bars -->
+                </div>
+
+                <div class="feed-list" id="downtimeFeed">
+                    <!-- JS Feed -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="api.js"></script>
+    <script src="shiftLogic.js"></script>
+    <script src="app_v4.js"></script>
+</body>
+
+</html>

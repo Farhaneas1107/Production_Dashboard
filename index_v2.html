@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V2 Dashboard | NAUE GMBH</title>
+    <link rel="stylesheet" href="index_v2.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <header class="dark-header">
+        <h1>NAUE GMBH &ndash; Manufacturing shift report</h1>
+    </header>
+
+    <div class="app-container">
+        <section class="control-strip">
+            <div class="control-group">
+                <label>Date</label>
+                <div class="input-wrapper" style="display:flex; align-items:center; gap:4px;">
+                    <button id="prevDateBtn" style="background:transparent; border:none; color:var(--text-gray); cursor:pointer; display:flex; align-items:center;"><i data-lucide="chevron-left" style="width:16px; height:16px;"></i></button>
+                    <input type="date" id="dateFilter" style="border:none; outline:none; background:transparent;">
+                    <button id="nextDateBtn" style="background:transparent; border:none; color:var(--text-gray); cursor:pointer; display:flex; align-items:center;"><i data-lucide="chevron-right" style="width:16px; height:16px;"></i></button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label>Shift</label>
+                <div class="shift-toggles" id="shiftToggles">
+                    <button class="shift-btn active" data-shift="1">Shift 1</button>
+                    <button class="shift-btn" data-shift="2">Shift 2</button>
+                    <button class="shift-btn" data-shift="3">Shift 3</button>
+                    <button class="shift-btn" data-shift="all">All Day</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Plant</label>
+                <select id="plantFilter"><option value="all">All Plants</option></select>
+            </div>
+
+            <div class="control-group">
+                <label>Machine</label>
+                <select id="machineFilter"><option value="all">All machines</option></select>
+            </div>
+
+            <div class="action-buttons">
+                <button id="refreshBtn" class="refresh-btn" title="Force Sync API"><i data-lucide="refresh-cw"></i></button>
+                <button id="exportBtn" class="export-btn"><i data-lucide="download"></i> Export PDF</button>
+            </div>
+        </section>
+
+        <section class="kpi-row" id="kpiRow">
+            <div class="kpi-card">
+                <div class="kpi-title">Machines running</div>
+                <div class="kpi-value"><i data-lucide="users"></i> <span id="kpiActiveMachines">-</span></div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Total quantity this window</div>
+                <div class="kpi-value"><i data-lucide="database"></i> <span id="kpiTotalQty">-</span></div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Total downtime this window</div>
+                <div class="kpi-value"><i data-lucide="clock"></i> <span id="kpiTotalDowntime">-</span></div>
+            </div>
+        </section>
+
+        <main class="main-layout">
+            <div class="left-column">
+                <div class="machine-cards-grid" id="machineGridV2">
+                    <div style="text-align:center; padding: 40px; width: 100%;"><i data-lucide="loader" class="rotating"></i> Syncing Application Data...</div>
+                </div>
+
+                <div class="production-table-container">
+                    <h3>Production runs</h3>
+                    <table class="run-table">
+                        <thead>
+                            <tr>
+                                <th>Machine</th>
+                                <th>PO</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Runtime</th>
+                                <th>Yield qty</th>
+                                <th>Avg throughput</th>
+                                <th>Max run speed</th>
+                            </tr>
+                        </thead>
+                        <tbody id="runTableBody">
+                            <!-- Injected JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="downtime-sidebar">
+                    <h2 id="sidebarTitle">Downtime Feed</h2>
+                    <p class="downtime-subtitle" id="sidebarSubtitle">- total downtime &middot; - events</p>
+                    
+                    <h4 class="chart-header">Downtime by machine</h4>
+                    <div class="downtime-chart" id="downtimeChart">
+                        <!-- Injected JS bars -->
+                    </div>
+
+                    <div class="downtime-feed" id="downtimeFeed">
+                        <!-- Injected JS cards -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="shiftLogic.js"></script>
+    <script src="app_v2.js"></script>
+</body>
+</html>

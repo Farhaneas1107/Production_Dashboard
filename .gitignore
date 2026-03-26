@@ -1,0 +1,11 @@
+# Large data files — do not commit to GitHub
+live_data.json
+machines_config.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.code-workspace

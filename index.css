@@ -1,0 +1,377 @@
+:root {
+    --primary: #2BAC70;
+    --primary-dark: #228f5c;
+    --background: #f4f6f8;
+    --surface: #ffffff;
+    --text-primary: #141617;
+    --text-secondary: #5e666a;
+    --border: #e2e8f0;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --success: #10b981;
+    --radius: 8px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background);
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.app-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 100vh;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--surface);
+    padding: 16px 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    color: var(--primary);
+    background-color: rgba(43, 172, 112, 0.1);
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+}
+
+.logo h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover { background-color: var(--primary-dark); }
+
+.filter-strip {
+    display: flex;
+    gap: 20px;
+    background-color: var(--surface);
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    background-color: var(--surface);
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(43, 172, 112, 0.15);
+}
+
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.plant-section {
+    background-color: transparent;
+}
+
+.plant-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.machine-grid {
+    display: grid;
+    /* Reduced min-width to prevent massive scaling and keep things compact */
+    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+    gap: 20px;
+}
+
+.machine-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    background-color: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.machine-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.machine-name {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.status-ongoing { background-color: rgba(16, 185, 129, 0.1); color: var(--success); }
+.status-idle { background-color: rgba(94, 102, 106, 0.1); color: var(--text-secondary); }
+.status-down { background-color: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+.data-section {
+    margin-bottom: 24px;
+}
+
+.data-section h4 {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.data-item {
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.downtime { border-left: 4px solid var(--danger); }
+.order-completed { border-left: 4px solid var(--primary); }
+.order-ongoing { border-left: 4px solid var(--warning); }
+
+/* Compacted Header inside Cards */
+.data-item-header-spacious {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+}
+
+.title-block h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.title-block .subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.time-block {
+    text-align: right;
+}
+
+.time-range {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.duration-badge {
+    display: inline-block;
+    background-color: var(--surface);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+    border: 1px solid var(--border);
+}
+
+.text-danger { color: var(--danger); }
+.text-primary { color: var(--primary); }
+
+/* Properly Sized Metrics Grid */
+.metrics-spacious-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 12px;
+}
+
+.metric-box {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mlabel {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.mvalue {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.downtime-comment {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    background: var(--surface);
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px dashed var(--border);
+    margin-top: 8px;
+}
+
+/* ========================================================
+   SINGLE MACHINE REPORT OVERRIDES
+   Activates when exactly 1 machine is selected
+   ======================================================== */
+.single-machine-report .plant-title {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    border: none;
+    margin-bottom: 15px;
+    padding-bottom: 0;
+}
+
+.single-machine-report .machine-grid {
+    display: block; 
+}
+
+.single-machine-report .machine-card {
+    border: 1px solid var(--border); 
+    box-shadow: var(--shadow); 
+    padding: 30px; 
+    background-color: var(--surface);
+    border-radius: 12px;
+}
+
+.single-machine-report .machine-header {
+    margin-bottom: 30px;
+}
+
+.single-machine-report .machine-name {
+    font-size: 1.6rem;
+    color: var(--primary-dark);
+}
+
+.single-machine-report .status-badge {
+    font-size: 0.95rem;
+    padding: 6px 16px;
+}
+
+.single-machine-report .data-section h4 {
+    font-size: 1.1rem; 
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.single-machine-report .data-item {
+    padding: 24px; 
+}
+
+/* When the card is massive, layout the 6 metrics in a single horizontal airline-ticket style block! */
+.single-machine-report .metrics-spacious-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px; 
+}
+
+/* Perfect PDF Print Styling */
+@media print {
+    body { background-color: white; color: black; }
+    .app-container { padding: 0; margin: 0; max-width: 100%; gap: 10px; }
+    .topbar { display: none !important; }
+    .filter-strip { box-shadow: none; border: 1px solid #ddd; margin-bottom: 30px; }
+    .machine-card { page-break-inside: avoid; break-inside: avoid; box-shadow: none !important; border: 1px solid #ccc !important; margin-bottom: 20px; padding: 20px !important; }
+    .data-item { page-break-inside: avoid; border-color: #ddd; background: #fff; padding: 20px !important; }
+    .metric-box { page-break-inside: avoid; }
+    .machine-grid { display: block; }
+}

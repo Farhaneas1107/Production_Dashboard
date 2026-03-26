@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Dashboard | NAUE GMBH</title>
+    <link rel="stylesheet" href="index.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="topbar">
+            <div class="logo">
+                <span class="logo-icon"><i data-lucide="activity"></i></span>
+                <h1>Shift Report Dashboard</h1>
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button id="refreshBtn" class="btn" style="background: var(--surface); border: 1px solid var(--border); color: var(--text-primary);">
+                    <i data-lucide="refresh-cw"></i> Refresh API
+                </button>
+                <button id="exportBtn" class="btn btn-primary">
+                    <i data-lucide="printer"></i> Print / Export PDF
+                </button>
+            </div>
+        </header>
+
+        <!-- Slicers / Filters -->
+        <section class="filter-strip">
+            <div class="filter-group">
+                <label for="dateFilter">Date</label>
+                <input type="date" id="dateFilter">
+            </div>
+            <div class="filter-group">
+                <label for="shiftFilter">Shift</label>
+                <select id="shiftFilter">
+                    <option value="all">All Day (06:00 - 06:00 next day)</option>
+                    <option value="1">Shift 1 (06:00 - 14:00)</option>
+                    <option value="2">Shift 2 (14:00 - 22:00)</option>
+                    <option value="3">Shift 3 (22:00 - 06:00)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="plantFilter">Plant</label>
+                <select id="plantFilter">
+                    <option value="all">All Plants</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="machineFilter">Machine</label>
+                <select id="machineFilter">
+                    <option value="all">All Machines</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Main Dashboard View -->
+        <main id="dashboardContent" class="dashboard-content">
+            <!-- Dynamic content will be injected here -->
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="api.js"></script>
+    <script src="shiftLogic.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
