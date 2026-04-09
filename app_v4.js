@@ -81,7 +81,23 @@ async function initFilters() {
         });
     });
 
-    refreshBtn.addEventListener('click', fetchAndRender);
+    refreshBtn.addEventListener('click', async () => {
+        let icon = refreshBtn.querySelector('svg');
+        if (icon) icon.classList.add('spin-anim');
+        
+        try {
+            // Ensure the button spins for exactly 1 second
+            const spinPromise = new Promise(resolve => setTimeout(resolve, 1000));
+            const fetchPromise = fetchAndRender();
+            await Promise.all([spinPromise, fetchPromise]);
+        } finally {
+            // Re-query the SVG! fetchAndRender() calls lucide.createIcons() 
+            // which destroys the old SVG and builds a replacement in the DOM.
+            icon = refreshBtn.querySelector('svg');
+            if (icon) icon.classList.remove('spin-anim');
+        }
+    });
+    
     exportBtn.addEventListener('click', () => window.print());
 
     prevDateBtn.addEventListener('click', () => changeDateByOffset(-1));
@@ -278,11 +294,24 @@ function renderGrid(shiftWindows) {
             if (pObj && pObj.external_id) prodName = pObj.external_id + ' &bull; ';
         }
         let poText = mainOrder ? `${prodName}PO: ${mainOrder.production_order || '-'}` : 'NO ACTIVE PO';
-        let qtyRaw = mainOrder && mainOrder.quantity_yield ? mainOrder.quantity_yield.value : 0;
-        gQty += qtyRaw;
+        
+        let machineTotalQty = 0;
+        mOrders.forEach(o => {
+            if (o.quantity_yield && o.quantity_yield.value != null) {
+                machineTotalQty += Number(o.quantity_yield.value);
+            }
+        });
+        
+        // The global KPI total uses the sum of all matching orders
+        gQty += machineTotalQty;
         
         // Stats
-        let qTxt = mainOrder ? formatQty(mainOrder.quantity_yield) : '-';
+        let qTxt = '';
+        if (activeShift === 'all') {
+            qTxt = machineTotalQty > 0 ? formatQty({value: machineTotalQty}) : '-';
+        } else {
+            qTxt = mainOrder ? formatQty(mainOrder.quantity_yield) : '-';
+        }
         let tTxt = mainOrder && mainOrder.average_throughput ? Number(mainOrder.average_throughput).toFixed(1) : '-';
         
         // Progress bars (maxed out at 8 hours)

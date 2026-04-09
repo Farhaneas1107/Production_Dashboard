@@ -524,3 +524,10 @@ body {
     font-size: 0.8rem;
     color: var(--text-gray);
 }
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+.spin-anim {
+    animation: spin 1s linear infinite;
+}
